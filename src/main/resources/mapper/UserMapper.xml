@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mybatis.mapper.UserMapper">
+    <select id="getAll" resultMap="userAndAddressResultMap">
+        select u.*,
+               a.id           as aid,
+               a.zip_code     as zip_code,
+               a.address      as address,
+               a.gmt_create   as a_gmt_create,
+               a.gmt_modified as a_gmt_modified
+        from user u
+                 left join user_address a on u.address_id = a.id;
+    </select>
+
+    <select id="getById" resultMap="userAssociationStepAddressResultMap">
+        select *
+        from user
+        where id = #{id}
+    </select>
+    <!--useGeneratedKeys使用自动生成的主键， keyProperty将主键赋值的对象 -->
+    <insert id="insertUserUseGeneratedKeys" useGeneratedKeys="true" parameterType="UserDo" keyProperty="id">
+        insert into user (name, email, phone, gmt_create, gmt_modified)
+        values (#{name}, #{email}, #{phone}, NOW(), NOW())
+    </insert>
+
+    <insert id="batchInsert">
+        insert int user values (name, email, phone, gmt_create, gmt_modified)
+        <foreach collection="userDos" item="user" separator=",">
+            (user.name, user.email, user.phone, NOW(), NOW())
+        </foreach>
+    </insert>
+
+    <delete id="deleteByName">
+        delete
+        from user
+        where name = #{name}
+    </delete>
+
+    <update id="update">
+        update user
+        <set>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="email != null and email != ''">email = #{email},</if>
+            <if test="phone != null and phone != ''">phone = #{phone}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="queryByCondition" resultMap="userAssociationStepAddressResultMap">
+        select * from user
+        <where>
+            <if test="name != null and name != ''">and name = #{name}</if>
+            <if test="email != null and email != ''">and email = #{email}</if>
+            <if test="phone != null and phone != ''">and phone = #{phone}</if>
+        </where>
+    </select>
+
+    <select id="queryByPriorityCondition" resultMap="userAssociationAddressResultMap">
+        select u.*,a.id as aid , a.zip_code as zip_code, a.address as address, a.gmt_create as a_gmt_create,
+        a.gmt_modified as a_gmt_modified
+        from user u left join user_address a on u.address_id = a.id
+        <where>
+            <choose>
+                <when test="id != null and id != ''">id=#{id}</when>
+                <when test="name != null and name != ''">name = #{name}</when>
+                <when test="email != null and email != ''">email = #{email}</when>
+                <when test="phone != null and phone != ''">phone = #{phone}</when>
+                <otherwise>1=1</otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <delete id="deleteByIds">
+        delete from user where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">#{id}</foreach>
+    </delete>
+
+    <select id="queryByCompanyName" resultMap="userAssociationStepAddressResultMap">
+        select *
+        from user
+        where company_name = #{companyName}
+    </select>
+
+    <resultMap id="userAndAddressResultMap" type="UserDo">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModified" column="gmt_modified"/>
+        <result property="userAddress.id" column="aid"/>
+        <result property="userAddress.zipCode" column="zip_code"/>
+        <result property="userAddress.address" column="address"/>
+        <result property="userAddress.gmtCreate" column="a_gmt_create"/>
+        <result property="userAddress.gmtModified" column="a_gmt_modified"/>
+    </resultMap>
+
+    <resultMap id="userAssociationAddressResultMap" type="UserDo">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModified" column="gmt_modified"/>
+        <association property="userAddress" javaType="UserAddressDo">
+            <result property="id" column="aid"/>
+            <result property="zipCode" column="zip_code"/>
+            <result property="address" column="address"/>
+            <result property="gmtCreate" column="a_gmt_create"/>
+            <result property="gmtModified" column="a_gmt_modified"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="userAssociationStepAddressResultMap" type="UserDo">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModified" column="gmt_modified"/>
+        <association property="userAddress" select="com.example.mybatis.mapper.AddressMapper.getById"
+                     column="address_id" fetchType="eager"/>
+    </resultMap>
+
+    <resultMap id="userResultMap" type="UserDo">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModified" column="gmt_modified"/>
+    </resultMap>
+</mapper>

@@ -1,0 +1,18 @@
+server:
+  port: 9090
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver  #???????
+    username: root #mysql?????
+    password: root #mysql????
+    url: jdbc:mysql://127.0.0.1:3306/yqc?characterEncoding=utf8&allowMultiQueries=true
+    type: com.alibaba.druid.pool.DruidDataSource #?????
+    druid:
+      one:
+        max-active: 100 #?????
+        min-idle: 20 #?????
+        max-wait: 2000 #?????ms?
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #????
+  type-aliases-package: com.example.mybatisplus.dto #???????????????????

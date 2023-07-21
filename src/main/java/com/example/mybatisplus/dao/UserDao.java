@@ -1,0 +1,55 @@
+package  com.example.mybatisplus.dao;
+
+import cn.hutool.core.bean.BeanUtil;
+import  com.example.mybatisplus.dto.UserDo;
+import  com.example.mybatisplus.mapper.UserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Component
+public class UserDao {
+    @Autowired
+    private UserMapper userMapper;
+
+    public List<UserDo> getAll() {
+        List<UserDo> result = userMapper.getAll();
+        return result;
+    }
+
+    public Long insertUserUseGeneratedKeys(UserDo userDo) {
+        userMapper.insert(userDo);
+        return userDo.getId();
+    }
+
+    public Integer deleteByName(String name) {
+        Map<String, Object> map = new HashMap<>(){{
+            put("name", name);
+        }};
+        return userMapper.deleteByMap(map);
+    }
+
+
+    public Integer update(UserDo userDo) {
+        return userMapper.update(userDo);
+    }
+
+    public List<UserDo> queryByCondition(UserDo userDo) {
+        return userMapper.selectByMap(BeanUtil.beanToMap(userDo));
+    }
+
+    public List<UserDo> queryByPriorityCondition(UserDo userDo) {
+        return userMapper.queryByPriorityCondition(userDo);
+    }
+
+    public Integer deleteByIds(List<Long> ids) {
+        return userMapper.deleteBatchIds(ids);
+    }
+
+    public Integer batchInsert(List<UserDo> userDos) {
+        return userMapper.batchInsert(userDos);
+    }
+}

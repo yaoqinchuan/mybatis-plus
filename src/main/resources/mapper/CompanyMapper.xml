@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mybatis.mapper.CompanyMapper">
+    <select id="getById" resultMap="companyResultCollection" resultType="CompanyDo">
+        select *
+        from company
+        where id = #{id}
+    </select>
+
+
+    <resultMap id="companyResultCollection" type="CompanyDo">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="workerCount" column="worker_count"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModified" column="gmt_modified"/>
+        <collection property="userList" ofType="UserDo" fetchType="eager" select="com.example.mybatis.mapper.UserMapper.queryByCompanyName" column="name"/>
+    </resultMap>
+</mapper>
