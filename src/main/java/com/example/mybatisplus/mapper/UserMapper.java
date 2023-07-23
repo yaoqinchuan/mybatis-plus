@@ -14,11 +14,8 @@ public interface UserMapper extends BaseMapper<UserDo> {
 
     Integer update(UserDo userDo);
 
-    List<UserDo> queryByCondition(UserDo userDo);
 
     List<UserDo> queryByPriorityCondition(UserDo userDo);
-
-    Integer deleteByIds(List<Long> Ids);
 
     Integer batchInsert(@Param("userDos") List<UserDo> userDos);
 }

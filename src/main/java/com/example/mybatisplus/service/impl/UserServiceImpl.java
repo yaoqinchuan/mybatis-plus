@@ -15,7 +15,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserModel> getAll() {
-        return userManagerImpl.getAll();
+        List<UserModel> result = userManagerImpl.getAll();
+        return result;
     }
 
     @Override
