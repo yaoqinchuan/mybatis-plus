@@ -1,6 +1,7 @@
 package com.example.mybatisplus.controller;
 
 import com.example.mybatisplus.common.CommonResult;
+import com.example.mybatisplus.common.LocalPage;
 import com.example.mybatisplus.model.UserModel;
 import com.example.mybatisplus.service.impl.UserServiceImpl;
 import com.example.mybatisplus.validator.UserControllerValidator;
@@ -19,6 +20,13 @@ public class UserController {
     @RequestMapping(path = "/all", method = RequestMethod.GET)
     public CommonResult<List<UserModel>> getAll() {
         return CommonResult.success(userServiceImpl.getAll());
+    }
+
+    @RequestMapping(path = "/all/page", method = RequestMethod.GET)
+    public CommonResult<LocalPage<UserModel>> getPaged(
+            @RequestParam(name = "index", defaultValue = "0") Integer index,
+            @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
+        return CommonResult.success(userServiceImpl.getPaged(index, pageSize));
     }
 
     @RequestMapping(path = "/all/count", method = RequestMethod.GET)

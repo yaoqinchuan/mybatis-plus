@@ -1,4 +1,4 @@
-package com.example.mybatisplus.common;
+package com.example.mybatisplus.utils;
 
 import org.springframework.beans.BeanUtils;
 

@@ -1,5 +1,6 @@
 package  com.example.mybatisplus.service;
 
+import com.example.mybatisplus.common.LocalPage;
 import  com.example.mybatisplus.model.UserModel;
 
 import java.util.List;
@@ -21,5 +22,6 @@ public interface UserService {
 
      Boolean batchInsert(List<UserModel> userModels);
 
+    LocalPage<UserModel> getPaged(Integer index, Integer pageSize);
     Long queryCount();
 }

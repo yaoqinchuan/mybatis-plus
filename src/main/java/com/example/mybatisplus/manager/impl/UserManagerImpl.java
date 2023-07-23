@@ -1,13 +1,16 @@
 package com.example.mybatisplus.manager.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.mybatisplus.common.ConvertUtils;
+import com.example.mybatisplus.common.LocalPage;
+import com.example.mybatisplus.utils.ConvertUtils;
 import com.example.mybatisplus.dao.UserDao;
 import com.example.mybatisplus.dto.UserDo;
 import com.example.mybatisplus.manager.UserManager;
 import com.example.mybatisplus.mapper.UserMapper;
 import com.example.mybatisplus.model.UserModel;
+import com.example.mybatisplus.utils.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +41,12 @@ public class UserManagerImpl extends ServiceImpl<UserMapper, UserDo> implements 
     @Override
     public Integer update(UserModel userModel) {
         return userDao.update(ConvertUtils.convert(userModel, UserDo.class));
+    }
+
+    @Override
+    public LocalPage<UserModel> getPaged(Integer index, Integer pageSize) {
+        Page<UserDo> resultDos = userDao.getPaged(index, pageSize);
+        return PageUtils.convertToLocalPage(resultDos, UserModel.class);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package  com.example.mybatisplus.manager;
 
+import com.example.mybatisplus.common.LocalPage;
 import  com.example.mybatisplus.model.UserModel;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface UserManager  {
      Integer deleteByName(String name);
 
      Integer update(UserModel userModel);
-
+     LocalPage<UserModel> getPaged(Integer index, Integer pageSize);
      List<UserModel> queryByCondition(UserModel userModel);
 
      List<UserModel> queryByPriorityCondition(UserModel userModel);

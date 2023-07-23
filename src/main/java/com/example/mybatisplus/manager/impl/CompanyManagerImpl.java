@@ -1,6 +1,6 @@
 package  com.example.mybatisplus.manager.impl;
 
-import com.example.mybatisplus.common.ConvertUtils;
+import com.example.mybatisplus.utils.ConvertUtils;
 import  com.example.mybatisplus.dao.CompanyDao;
 import  com.example.mybatisplus.dto.CompanyDo;
 import  com.example.mybatisplus.manager.CompanyManager;

@@ -1,5 +1,7 @@
 package  com.example.mybatisplus.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.mybatisplus.common.LocalPage;
 import  com.example.mybatisplus.manager.impl.UserManagerImpl;
 import  com.example.mybatisplus.model.UserModel;
 import  com.example.mybatisplus.service.UserService;
@@ -52,6 +54,11 @@ public class UserServiceImpl implements UserService {
     public Boolean batchInsert(List<UserModel> userModels){
         Boolean result = userManagerImpl.batchInsert(userModels);
         return result;
+    }
+
+    @Override
+    public LocalPage<UserModel> getPaged(Integer index, Integer pageSize) {
+        return userManagerImpl.getPaged(index, pageSize);
     }
 
     @Override
