@@ -1,20 +1,25 @@
-package  com.example.mybatisplus.manager.impl;
+package com.example.mybatisplus.manager.impl;
 
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.mybatisplus.common.ConvertUtils;
-import  com.example.mybatisplus.dao.UserDao;
-import  com.example.mybatisplus.dto.UserDo;
-import  com.example.mybatisplus.manager.UserManager;
-import  com.example.mybatisplus.model.UserModel;
+import com.example.mybatisplus.dao.UserDao;
+import com.example.mybatisplus.dto.UserDo;
+import com.example.mybatisplus.manager.UserManager;
+import com.example.mybatisplus.mapper.UserMapper;
+import com.example.mybatisplus.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class UserManagerImpl implements UserManager {
+public class UserManagerImpl extends ServiceImpl<UserMapper, UserDo> implements UserManager, IService<UserDo> {
     @Autowired
     private UserDao userDao;
+
     @Override
     public List<UserModel> getAll() {
         return userDao.getAll().stream().map(userDo -> ConvertUtils.convert(userDo, UserModel.class)).collect(Collectors.toList());
@@ -51,7 +56,18 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    public Integer batchInsert(List<UserModel> userModels) {
-        return userDao.batchInsert(userModels.stream().map(userModel->ConvertUtils.convert(userModel, UserDo.class)).collect(Collectors.toList()));
+    public Boolean batchInsert(List<UserModel> userModels) {
+        return saveBatch(userModels.stream().map(userModel ->
+        {
+            userModel.setGmtCreate(new Date());
+            userModel.setGmtModified(new Date());
+            UserDo result = ConvertUtils.convert(userModel, UserDo.class);
+            return result;
+        }).collect(Collectors.toList()));
+    }
+
+    @Override
+    public Long queryCount() {
+        return count();
     }
 }

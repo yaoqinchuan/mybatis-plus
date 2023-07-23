@@ -6,6 +6,7 @@ import  com.example.mybatisplus.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,8 @@ public class UserDao {
     }
 
     public Long insertUserUseGeneratedKeys(UserDo userDo) {
+        userDo.setGmtCreate(new Date());
+        userDo.setGmtModified(new Date());
         userMapper.insert(userDo);
         return userDo.getId();
     }
@@ -34,6 +37,7 @@ public class UserDao {
 
 
     public Integer update(UserDo userDo) {
+        userDo.setGmtModified(new Date());
         return userMapper.update(userDo);
     }
 
@@ -47,9 +51,5 @@ public class UserDao {
 
     public Integer deleteByIds(List<Long> ids) {
         return userMapper.deleteBatchIds(ids);
-    }
-
-    public Integer batchInsert(List<UserDo> userDos) {
-        return userMapper.batchInsert(userDos);
     }
 }

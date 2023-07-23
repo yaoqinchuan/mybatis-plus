@@ -49,7 +49,13 @@ public class UserServiceImpl implements UserService {
         return userManagerImpl.deleteByIds(ids);
     }
 
-    public Integer batchInsert(List<UserModel> userModels){
-        return userManagerImpl.batchInsert(userModels);
+    public Boolean batchInsert(List<UserModel> userModels){
+        Boolean result = userManagerImpl.batchInsert(userModels);
+        return result;
+    }
+
+    @Override
+    public Long queryCount() {
+        return userManagerImpl.queryCount();
     }
 }

@@ -25,13 +25,6 @@
         values (#{name}, #{email}, #{phone}, NOW(), NOW())
     </insert>
 
-    <insert id="batchInsert">
-        insert int user values (name, email, phone, gmt_create, gmt_modified)
-        <foreach collection="userDos" item="user" separator=",">
-            (user.name, user.email, user.phone, NOW(), NOW())
-        </foreach>
-    </insert>
-
     <delete id="deleteByName">
         delete
         from user

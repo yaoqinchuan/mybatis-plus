@@ -19,5 +19,7 @@ public interface UserService {
 
     Integer deleteByIds(List<Long> ids);
 
-     Integer batchInsert(List<UserModel> userModels);
+     Boolean batchInsert(List<UserModel> userModels);
+
+    Long queryCount();
 }

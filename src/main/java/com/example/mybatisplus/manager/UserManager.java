@@ -4,7 +4,7 @@ import  com.example.mybatisplus.model.UserModel;
 
 import java.util.List;
 
-public interface UserManager {
+public interface UserManager  {
      List<UserModel> getAll();
 
      Long insertUserUseGeneratedKeys(UserModel userModel);
@@ -19,5 +19,7 @@ public interface UserManager {
 
      Integer deleteByIds(List<Long> ids);
 
-     Integer batchInsert( List<UserModel> userModels);
+     Boolean batchInsert( List<UserModel> userModels);
+
+     Long queryCount();
 }

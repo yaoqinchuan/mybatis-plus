@@ -23,6 +23,8 @@ public class UserDo {
     private UserAddressDo userAddress;
     @TableField(value = "company_name")
     private String companyName;
+    @TableField(value = "address_id")
+    private Long addressId;
     @TableField(value = "gmt_create")
     private Date gmtCreate;
     @TableField(value = "gmt_modified")
